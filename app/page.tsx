@@ -1,5 +1,7 @@
 import { sortByTotalDescending } from '@/lib/utils'
 import { useGroupTotals } from '@/lib/useGroupTotals'
+import { createSunburstData } from '@/lib/utils/sunburstData'
+import SunburstChart from '@/components/SunburstChart'
 
 export default async function Home() {
   const CAIT = 43000274288
@@ -42,12 +44,21 @@ export default async function Home() {
   const sortedRegionTotals = sortByTotalDescending(regionTotals)
   const sortedTeamTotals = sortByTotalDescending(teamTotals)
 
+  // Sunburst 차트 데이터 생성
+  const sunburstData = createSunburstData(regionTotals, teamTotals)
+
   return (
     <div className="min-h-screen bg-white p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">H Mart Unresolved Ticket Statistics</h1>
 
         <div className="space-y-8">
+          {/* Sunburst Chart */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4">티켓 분포</h2>
+            <SunburstChart data={sunburstData} />
+          </div>
+
           {/* Region Section */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Region</h2>
